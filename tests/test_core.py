@@ -50,6 +50,26 @@ def test_find_preview_entry_prefers_index():
     assert find_preview_entry(["main.py", "requirements.txt"]) is None
 
 
+def test_build_standalone_html_inlines_assets(tmp_path):
+    from agent.preview import build_standalone_html
+
+    (tmp_path / "style.css").write_text("body{color:red}", encoding="utf-8")
+    (tmp_path / "app.js").write_text("window.__ok=true;", encoding="utf-8")
+    (tmp_path / "index.html").write_text(
+        "<!DOCTYPE html><html><head>"
+        '<link rel="stylesheet" href="style.css">'
+        "</head><body><h1>Hi</h1>"
+        '<script src="app.js"></script>'
+        "</body></html>",
+        encoding="utf-8",
+    )
+    html = build_standalone_html(tmp_path, "index.html")
+    assert "body{color:red}" in html
+    assert "window.__ok=true;" in html
+    assert 'href="style.css"' not in html
+    assert 'src="app.js"' not in html
+
+
 def test_zip_project(tmp_path):
     project = tmp_path / "demo"
     project.mkdir()

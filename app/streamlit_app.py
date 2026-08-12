@@ -16,7 +16,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from agent.config import AVAILABLE_MODELS, MODEL_LABELS, get_settings
-from agent.preview import find_preview_entry
+from agent.preview import build_standalone_html, find_preview_entry
 from agent.runner import list_project_files, run_generation
 
 st.set_page_config(
@@ -46,11 +46,6 @@ def _zip_bytes(project_dir: Path) -> bytes:
                 archive.write(file_path, arcname=file_path.relative_to(project_dir))
     buffer.seek(0)
     return buffer.read()
-
-
-def _live_preview_url(project_name: str, entry: str) -> str:
-    host = "127.0.0.1" if settings.api_host in {"0.0.0.0", "::"} else settings.api_host
-    return f"http://{host}:{settings.api_port}/api/projects/{project_name}/live/{entry}"
 
 
 EXAMPLES = [
@@ -170,10 +165,20 @@ if result:
         st.caption("Generated project folder")
 
     if entry:
-        live_url = _live_preview_url(result["project_name"], entry)
         st.subheader("Live preview")
-        st.link_button("Open live preview in new tab", live_url)
-        components.iframe(live_url, height=560, scrolling=True)
+        try:
+            standalone = build_standalone_html(project_dir, entry)
+            st.download_button(
+                label="Download standalone HTML (open on phone)",
+                data=standalone.encode("utf-8"),
+                file_name="preview.html",
+                mime="text/html",
+                use_container_width=True,
+            )
+            components.html(standalone, height=560, scrolling=True)
+        except Exception as exc:  # noqa: BLE001
+            st.warning(f"Could not build live preview: {exc}")
+            st.info("Download the ZIP and open index.html in a browser instead.")
     else:
         st.info("No HTML entry file found for live preview (e.g. index.html).")
 
