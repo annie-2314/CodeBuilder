@@ -1,0 +1,76 @@
+:root {
+  --bg-deep: #0c1210;
+  --bg-panel: rgba(18, 28, 24, 0.88);
+  --ink: #e7f0ea;
+  --muted: #8fa399;
+  --accent: #3ecf8e;
+  --accent-dim: #1f7a52;
+  --warn: #e8b84a;
+  --danger: #e86a5a;
+  --line: rgba(62, 207, 142, 0.18);
+  --glow: rgba(62, 207, 142, 0.35);
+  --font-display: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  color: var(--ink);
+  background: var(--bg-deep);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(1000px 500px at 10% -10%, rgba(62, 207, 142, 0.16), transparent 60%),
+    radial-gradient(800px 400px at 90% 0%, rgba(232, 184, 74, 0.08), transparent 55%),
+    linear-gradient(160deg, #0c1210 0%, #101816 45%, #0a0f0d 100%);
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-line {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

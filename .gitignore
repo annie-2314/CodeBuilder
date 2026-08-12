@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[oc]
+*.egg-info/
+build/
+dist/
+wheels/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+.env
+
+# Generated projects & archives
+generated_projects/*
+!generated_projects/.gitkeep
+*.zip
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+.ipynb_checkpoints/
+
+# Personal / private files
+Annie_Siri_Resume.pdf
+*_Resume.pdf
+*.pdf
+
